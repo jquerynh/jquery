@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "builds": [
+    { "src": "api/*.py", "use": "@vercel/python" }
+  ],
+  "routes": [
+    { "src": "/api/auth_request", "dest": "api/auth_request.py" },
+    { "src": "/api/auth_verify",  "dest": "api/auth_verify.py" },
+    { "src": "/api/me",           "dest": "api/me.py" },
+    { "src": "/api/logout",       "dest": "api/logout.py" },
+    { "src": "/(.*)",             "dest": "/public/$1" }
+  ]
+}
