@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dashboard</title>
+<style>
+  body{font-family:system-ui,sans-serif;background:#0d0d0d;color:#eee;
+       padding:40px;margin:0}
+  .card{background:#161616;padding:24px;border-radius:16px;
+        border:1px solid #222;max-width:400px}
+  a{color:#4f8cff}
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>💎 Dashboard</h1>
+  <p>Email: <b id="email">...</b></p>
+  <p>Status: <b id="status">...</b></p>
+  <p><a href="/api/logout">Logout</a></p>
+</div>
+<script>
+(async () => {
+  const r = await fetch('/api/me');
+  if (!r.ok) { location.href = '/'; return; }
+  const u = await r.json();
+  document.getElementById('email').textContent = u.email;
+  document.getElementById('status').textContent =
+    u.premium ? '✅ Premium aktif' : '❌ Free';
+})();
+</script>
+</body>
+</html>
