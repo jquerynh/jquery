@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Login — Magic Link</title>
+<style>
+  body{font-family:system-ui,sans-serif;background:#0d0d0d;color:#eee;
+       display:flex;align-items:center;justify-content:center;
+       height:100vh;margin:0}
+  .box{background:#161616;padding:40px;border-radius:16px;
+       border:1px solid #222;width:340px}
+  h2{margin:0 0 16px}
+  input{width:100%;padding:12px;border-radius:8px;border:1px solid #333;
+        background:#0d0d0d;color:#eee;box-sizing:border-box;margin:12px 0}
+  button{width:100%;padding:12px;background:#4f8cff;border:0;color:#fff;
+         border-radius:8px;font-weight:600;cursor:pointer}
+  button:hover{background:#3a75e6}
+  .msg{margin-top:12px;font-size:14px}
+  .ok{color:#4ade80}.err{color:#f87171}
+</style>
+</head>
+<body>
+<div class="box">
+  <h2>🔐 Magic Login</h2>
+  <form id="f">
+    <input type="email" id="email" placeholder="you@mail.com" required>
+    <button type="submit">Kirim Link</button>
+  </form>
+  <div class="msg" id="msg"></div>
+  <p style="color:#666;font-size:12px;margin-top:16px">
+    Premium otomatis aktif saat login pertama.
+  </p>
+</div>
+<script>
+document.getElementById('f').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const email = document.getElementById('email').value;
+  const msg = document.getElementById('msg');
+  msg.textContent = 'Mengirim...';
+  msg.className = 'msg';
+  try {
+    const r = await fetch('/api/auth_request', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({email})
+    });
+    const j = await r.json();
+    if (r.ok) {
+      msg.textContent = '✅ ' + j.message;
+      msg.className = 'msg ok';
+    } else {
+      msg.textContent = '❌ ' + (j.error || 'gagal');
+      msg.className = 'msg err';
+    }
+  } catch (err) {
+    msg.textContent = '❌ ' + err.message;
+    msg.className = 'msg err';
+  }
+});
+</script>
+</body>
+</html>
