@@ -1,5 +1,0 @@
-fastapi
-itsdangerous
-aiosmtplib
-python-multipart
-redis
